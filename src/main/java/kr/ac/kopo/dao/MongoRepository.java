@@ -26,8 +26,10 @@ public class MongoRepository<T> {
 	protected Class<T> entityClass;
 
 	public List<T> list() {
+		// pager를 위한 객체
 		Query query = new Query();
-		// query: 
+		
+		// query: 메서드에 필요한 조건을 넣을 객체
 		// entityClass: mapper의 resultType에 해당 -> DB의 JSON을 저장할 JAVA 객체
 		// collecitonName: MongoDB의 collection명
 		return mongo.find(query, entityClass, collectionName);
