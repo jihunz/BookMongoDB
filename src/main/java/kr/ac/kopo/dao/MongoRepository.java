@@ -8,7 +8,6 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
-import kr.ac.kopo.model.Book;
 
 // MongoRepository<T> -> 제네릭으로 인터페이스의 유연성 대체, dao 대체
 public class MongoRepository<T> {
