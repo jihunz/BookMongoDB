@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+      http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.8.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	
+	<!-- datasource에 해당 / DB 커넥션 담당 -->
+	<mongo:mongo-client id="mongoClient" host="localhost"></mongo:mongo-client>
+	
+	<!-- sqlSessionFactory에 해당 / 커넥션과 템플릿을 엮음 -->
+	<mongo:db-factory id="mongoDbFactory" mongo-ref="mongoClient" dbname="bookshop"/>
+	
+	<!-- sqlSessionTemplate에 해당, mongo가 아닌 bean임 -->
+	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+		<constructor-arg ref="mongoDbFactory"></constructor-arg>
+	</bean>
+	
+	<bean id="BookDao" class="kr.ac.kopo.dao.MongoRepository">
+		<!-- MongoRepository의 생성자에 념겨줄 인수를 지정 / name 혹은 type으로 지정-->
+		<constructor-arg name="mongo" ref="mongoTemplate"></constructor-arg>
+		
+		<!-- 컬렉션 이름을 value로 지정 -->
+		<constructor-arg name="collectionName" value="book"></constructor-arg>
+		
+		<!-- MongoDB의 문서에 결과 값을 받아오기 위한 클래스 지정-->
+		<constructor-arg name="entityClass">
+			<value type="java.lang.Class">kr.ac.kopo.model.Book</value>
+		</constructor-arg>
+	</bean>
+	
+	
+	
+</beans>
